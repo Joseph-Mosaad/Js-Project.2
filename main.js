@@ -45,21 +45,28 @@ let products =[
 
 ]
 
-function validateString(string){
+
+
+//Validation functions
+
+function validate(string,type,quantity){
     if(typeof string !=="string"){
-        throw new Error(`${string} is not a valid name`)
+        throw new Error(`${string} is not a valid name!`);}
+
+        else if(typeof type !=="string"){
+            throw new Error(`${type} is not a valid type!`);}
+
+    else if(typeof quantity !=="number"){
+        throw new Error(`${quantity} is not a number!`);
     }
 }
-function validateNumber(number){
-    if(typeof number !=="number"){
-        throw new Error(`${number} is not a number`)
-    }
-}
 
 
 
 
-//getProducts
+
+//getProducts function
+
 function getproducts(products){
     let productList=[...products];
     
@@ -74,12 +81,13 @@ getproducts(products);
 
 
 
+
             //addNewProducts //how to print the updated list without third function
 
             function addNewProduct(productName,productType, ProductQuantity){
-                validateString(productName);
-                validateString(productType);
-                validateNumber(ProductQuantity);
+
+                validate(productName,productType, ProductQuantity);
+
 
                 products.push ({name:productName,type:productType, quantity:ProductQuantity});
                 
@@ -95,10 +103,10 @@ getproducts(products);
             
 //updateQuantity
 
-    function updateQuantity(productName,newQuantity){
-        validateString(productName);
-        validateNumber(newQuantity);
-      
+    function updateQuantity(productName,productType,newQuantity){
+       
+        validate(productName,productType,newQuantity);
+        
         for(  i = 0; i < products.length;  i++){
 
             if(products[i].name===productName){
@@ -110,6 +118,6 @@ getproducts(products);
         return;
     }
 
-    updateQuantity("eggs",300);
+    updateQuantity("eggs","unit",300);
     
     
