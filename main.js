@@ -4,72 +4,78 @@ let products =[
         type: "Unit",
         quantity: 100
     },
-    
+
     {
         name: "cola",
         type: "unit",
         quantity: 120
-    
+
     },
 
     {
         name: "tomato",
         type: "kilo",
         quantity: 120
-    
+
     },
     {
         name: "cucumber",
         type: "kilo",
         quantity: 120
-    
+
     },
     {
         name: "eggs",
         type: "unit",
         quantity: 1000
-    
+
     },
     {
         name: "cheese",
         type: "unit",
         quantity: 120
-    
+
     },
     {
         name: "kiwi",
         type: "kilo",
         quantity: 120
-    
+
     },
 
 ]
+//validation functions
 
-
-
-//Validation functions
-
-function validate(string,type,quantity){
+function validateString(string){
     if(typeof string !=="string"){
-        throw new Error(`${string} is not a valid name!`);}
-
-        else if(typeof type !=="string"){
-            throw new Error(`${type} is not a valid type!`);}
-
-    else if(typeof quantity !=="number"){
-        throw new Error(`${quantity} is not a number!`);
+        throw new Error(`${string} is not a valid name`)
     }
+}
+
+function validateNumber(number){
+    if(typeof number !=="number"){
+        throw new Error(`${number} is not a number`)
+    }
+}
+
+function validateProduct(name="product",type="productType",quantity=0){
+    validateString(name);
+    validateString(type);
+    validateNumber(quantity);
+}
+
+
+//JSON funtion for deep cloning 
+function deepClone(obj){
+    return JSON.parse(JSON.stringify(obj));
 }
 
 
 
-
-
-//getProducts function
-
+//getProducts
 function getproducts(products){
     let productList=[...products];
-    
+
     console.log(productList);
 
 }
@@ -81,18 +87,16 @@ getproducts(products);
 
 
 
-
             //addNewProducts //how to print the updated list without third function
 
             function addNewProduct(productName,productType, ProductQuantity){
+                let oldProducts=deepClone(products);
+                validateProduct(productName,productType,ProductQuantity);
+               
+                oldProducts.push ({name:productName,type:productType, quantity:ProductQuantity});
 
-                validate(productName,productType, ProductQuantity);
+                console.log(oldProducts);
 
-
-                products.push ({name:productName,type:productType, quantity:ProductQuantity});
-                
-                console.log(products);
-                
             }
 
             addNewProduct("chocolate","bars", 120);
@@ -100,24 +104,23 @@ getproducts(products);
 
 
 
-            
+
 //updateQuantity
 
-    function updateQuantity(productName,productType,newQuantity){
-       
-        validate(productName,productType,newQuantity);
+    function updateQuantity(productName,newQuantity){
+        let newProducts=deepClone(products);
         
-        for(  i = 0; i < products.length;  i++){
+        validateProduct(productName,"",newQuantity);
+               
+        for(  i = 0; i < newProducts.length;  i++){
 
-            if(products[i].name===productName){
-                products[i].quantity = newQuantity;  
+            if(newProducts[i].name===productName){
+                newProducts[i].quantity = newQuantity;  
             }  
         }    
+
+        console.log( newProducts)
       
-        console.log( products)
-        return;
     }
 
-    updateQuantity("eggs","unit",300);
-    
-    
+    updateQuantity("eggs",300);
